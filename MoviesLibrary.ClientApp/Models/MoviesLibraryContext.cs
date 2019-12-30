@@ -62,7 +62,18 @@ namespace MoviesLibrary.ClientApp.Models
 
         public override ObservableCollection<T> GetItems<T>()
         {
-            throw new NotImplementedException();
+            ObservableCollection<T> result;
+
+            if (typeof(T) == typeof(Movie))
+            {
+                result = this.MyMovies as ObservableCollection<T>;
+            }
+            else
+            {
+                throw new Exception("Le type spécifié n'est pas valide");
+            }
+
+            return result;
         }
 
         #endregion

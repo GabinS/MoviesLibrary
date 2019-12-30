@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Framework.MVVM\Framework.MVVM.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

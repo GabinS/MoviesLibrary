@@ -2,6 +2,8 @@
 using Framework.MVVM.Models.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 using MoviesLibrary.ClientApp.Models;
+using MoviesLibrary.ClientApp.ViewModels;
+using MoviesLibrary.ClientApp.ViewModels.Abstracts;
 using MoviesLibrary.ClientApp.Views;
 using System;
 using System.Collections.Generic;
@@ -31,15 +33,18 @@ namespace MoviesLibrary.ClientApp
             //Création du contexte de données de l'application.
             serviceCollection.AddSingleton<IDataContext, MoviesLibraryContext>(sp => FileDataContext.Load(this._FilePath, new MoviesLibraryContext(this._FilePath)));
 
-            //TODO Création des vue-modèle.
-
+            //Création des vue-modèle.
+            serviceCollection.AddTransient<IViewModelMain, ViewModelMain>(sp => new ViewModelMain(sp));
+            serviceCollection.AddTransient<IViewModelMovies, ViewModelMovies>(sp => new ViewModelMovies(sp));
+            serviceCollection.AddTransient<IViewModelMyMovies, ViewModelMyMovies>(sp => new ViewModelMyMovies(sp));
+            serviceCollection.AddTransient<IViewModelSettings, ViewModelSettings>(sp => new ViewModelSettings(sp));
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MainWindow window = new MainWindow();
 
             //TODO Affectation du context à la fenêtre principale.
-
+            window.DataContext = serviceProvider.GetService<IViewModelMain>();
 
             window.Show();
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MoviesLibrary.ClientApp.Models
 {
-    class Movie : ObservableObject
+    public class Movie : ObservableObject
     {
         #region Fields
 
