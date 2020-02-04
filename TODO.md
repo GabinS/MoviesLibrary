@@ -3,9 +3,9 @@
 - [x] Mise en place de Mahapps
 - [x] Créé le menu
 - [x] Créations des models
-- [ ] Ajouter les différents onglets
+- [x] Ajouter les différents onglets
 - [ ] Créations des vue-models
-- [ ] Appeler l'api OMDb (http://www.omdbapi.com)
+- [x] Appeler l'api OMDb (http://www.omdbapi.com)
 - [ ] Créé la vue des liste des films (recherche titre + année)
 - [ ] Créé la vue 'Mes Films' (recherche titre + année)
 - [ ] Créé la vue des paramètres

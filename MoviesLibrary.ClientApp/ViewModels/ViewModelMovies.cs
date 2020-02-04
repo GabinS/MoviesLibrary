@@ -3,6 +3,7 @@ using Framework.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using MoviesLibrary.ClientApp.Models;
 using MoviesLibrary.ClientApp.ViewModels.Abstracts;
+using MoviesLibrary.ClientApp.API;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,8 +23,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         private readonly IServiceProvider _ServiceProvider;
 
         #endregion
-
-
+        
         #region Properties
 
         /// <summary>

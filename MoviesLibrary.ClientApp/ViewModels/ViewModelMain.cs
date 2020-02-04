@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using MoviesLibrary.ClientApp.API;
 
 namespace MoviesLibrary.ClientApp.ViewModels
 {
@@ -67,6 +68,8 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public ViewModelMain(IServiceProvider serviceProvider)
             : base(serviceProvider.GetService<IDataContext>())
         {
+            OmdbAPI.SearchFilm("Harry");
+
             this._ServiceProvider = serviceProvider;
 
             this._ViewModelMovies = this._ServiceProvider.GetService<IViewModelMovies>();

@@ -1,6 +1,5 @@
 ﻿using Framework.MVVM;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace MoviesLibrary.ClientApp.Models
@@ -37,7 +36,7 @@ namespace MoviesLibrary.ClientApp.Models
         public int Year { get => this._Year; set => this.SetProperty(nameof(this.Year), ref this._Year, value); }
         public string imdbID { get => this._imdbID; set => this.SetProperty(nameof(this.imdbID), ref this._imdbID, value); }
         public string Poster { get => this._Poster; set => this.SetProperty(nameof(this.Poster), ref this._Poster, value); }
-        
+
         #endregion
 
         #region Constructor
