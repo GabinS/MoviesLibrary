@@ -14,14 +14,13 @@ namespace MoviesLibrary.ClientApp.API
         static HttpClient client = new HttpClient();
         private static string baseUrl = $"http://www.omdbapi.com?apikey={APIKey.GetAPIKey}&type=movie";
 
-        private static async Task Run()
-        {
-            // Update port # in the following line.
-            client.BaseAddress = new Uri("http://www.omdbapi.com");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
+        /// <summary>
+        /// Recherche une liste de film par leur nom
+        /// </summary>
+        /// <param name="search">Recherche demandée</param>
+        /// <param name="page">numéro de la page</param>
+        /// <param name="year">Année à laquelle rechercher les films</param>
+        /// <returns><see cref="SearchResult"/></returns>
         public static SearchResult SearchFilm(string search, int page = 1, int year = 0)
         {
             string stringYear = year != 0 ? $"&y={year}" : "";
@@ -41,6 +40,11 @@ namespace MoviesLibrary.ClientApp.API
 
         }
 
+        /// <summary>
+        /// Récupère un film par son identifiant
+        /// </summary>
+        /// <param name="imdbID">Identifiant d'un film</param>
+        /// <returns><see cref="Movie"/></returns>
         public static Movie GetFilm(string imdbID)
         {
             string url = $"{baseUrl}&i={imdbID}";

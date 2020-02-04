@@ -14,6 +14,9 @@ namespace MoviesLibrary.ClientApp.API
             _key = "34ad5063"; // Ma clé API
         }
 
+        /// <summary>
+        /// Récupère l'instance de la clé API
+        /// </summary>
         public static string GetAPIKey
         {
             get
