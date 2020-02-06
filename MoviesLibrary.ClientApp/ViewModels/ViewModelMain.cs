@@ -68,8 +68,6 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public ViewModelMain(IServiceProvider serviceProvider)
             : base(serviceProvider.GetService<IDataContext>())
         {
-            OmdbAPI.SearchFilm("Harry");
-
             this._ServiceProvider = serviceProvider;
 
             this._ViewModelMovies = this._ServiceProvider.GetService<IViewModelMovies>();
@@ -86,8 +84,8 @@ namespace MoviesLibrary.ClientApp.ViewModels
 
         public override void LoadData()
         {
-            this.ItemsSource = new ObservableCollection<IObservableObject>(new IObservableObject[] { this._ViewModelMyMovies, this._ViewModelMovies, this._ViewModelSettings });
-            this.SelectedItem = this._ViewModelMyMovies; // vue-model sélectionné par défaut.
+            this.ItemsSource = new ObservableCollection<IObservableObject>(new IObservableObject[] {  this._ViewModelMovies, this._ViewModelMyMovies, this._ViewModelSettings });
+            this.SelectedItem = this._ViewModelMovies; // vue-model sélectionné par défaut.
         }
 
         #region ExitCommand

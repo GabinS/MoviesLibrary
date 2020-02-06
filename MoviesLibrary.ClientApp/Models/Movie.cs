@@ -33,8 +33,17 @@ namespace MoviesLibrary.ClientApp.Models
         /// Obtient ou défini le titre du film
         /// </summary>
         public string Title { get => this._Title; set => this.SetProperty(nameof(this.Title), ref this._Title, value); }
+        /// <summary>
+        /// Obtient ou défini l'année du film
+        /// </summary>
         public int Year { get => this._Year; set => this.SetProperty(nameof(this.Year), ref this._Year, value); }
+        /// <summary>
+        /// Obtient ou défini l'identifiant du film
+        /// </summary>
         public string imdbID { get => this._imdbID; set => this.SetProperty(nameof(this.imdbID), ref this._imdbID, value); }
+        /// <summary>
+        /// Obtient ou défini le l'url du poster du film
+        /// </summary>
         public string Poster { get => this._Poster; set => this.SetProperty(nameof(this.Poster), ref this._Poster, value); }
 
         #endregion

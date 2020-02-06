@@ -1,4 +1,5 @@
 ﻿using Framework.MVVM.Models;
+using MoviesLibrary.ClientApp.API;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace MoviesLibrary.ClientApp.Models
         /// <summary>
         /// Liste des films d'une recherche
         /// </summary>
-        private ObservableCollection<Movie> _SearchMovies;
+        private ObservableCollection<SearchResult> _SearchMovies;
         /// <summary>
         /// Liste des films de ma collection
         /// </summary>
@@ -30,7 +31,7 @@ namespace MoviesLibrary.ClientApp.Models
         /// <summary>
         /// Obtient la liste des films d'une recherche
         /// </summary>
-        public ObservableCollection<Movie> SearchMovies { get => this._SearchMovies; private set => this.SetProperty(nameof(this.SearchMovies), ref this._SearchMovies, value); }
+        public ObservableCollection<SearchResult> SearchMovies { get => this._SearchMovies; private set => this.SetProperty(nameof(this.SearchMovies), ref this._SearchMovies, value); }
         /// <summary>
         /// Obtient la liste des films de ma collection
         /// </summary>
@@ -47,7 +48,8 @@ namespace MoviesLibrary.ClientApp.Models
         public MoviesLibraryContext(string filePath)
             : base(filePath)
         {
-            this._SearchMovies = new ObservableCollection<Movie>();
+            this._SearchMovies = new ObservableCollection<SearchResult>(){ OmdbAPI.SearchFilm("Harry Potter")};
+            //this._SearchMovies = new ObservableCollection<Movie>();
             this._MyMovies = new ObservableCollection<Movie>();
         }
 
@@ -64,7 +66,11 @@ namespace MoviesLibrary.ClientApp.Models
         {
             ObservableCollection<T> result;
 
-            if (typeof(T) == typeof(Movie))
+            if (typeof(T) == typeof(SearchResult))
+            {
+                result = this.SearchMovies as ObservableCollection<T>;
+            }
+            else if (typeof(T) == typeof(Movie))
             {
                 result = this.MyMovies as ObservableCollection<T>;
             }

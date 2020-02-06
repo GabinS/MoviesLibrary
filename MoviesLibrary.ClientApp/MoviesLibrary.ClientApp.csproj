@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Framework.MVVM\Framework.MVVM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
+
 </Project>

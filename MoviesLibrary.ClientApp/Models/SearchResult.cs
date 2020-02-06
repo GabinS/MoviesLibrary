@@ -1,6 +1,7 @@
 ﻿using Framework.MVVM;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -13,7 +14,7 @@ namespace MoviesLibrary.ClientApp.Models
         /// <summary>
         /// liste des films recherchés
         /// </summary>
-        private List<Movie> _Search;
+        private ObservableCollection<Movie> _Search;
         /// <summary>
         /// Nombre total de résultat
         /// </summary>
@@ -27,7 +28,7 @@ namespace MoviesLibrary.ClientApp.Models
 
         #region properties
 
-        public List<Movie> Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
+        public ObservableCollection<Movie> Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
         public int totalResults { get => this._totalResults; set => this.SetProperty(nameof(this.totalResults), ref this._totalResults, value); }
         public bool Response { get => this._Response; set => this.SetProperty(nameof(this.Response), ref this._Response, value); }
 
@@ -41,7 +42,7 @@ namespace MoviesLibrary.ClientApp.Models
 
         #region Methods
 
-        public List<Movie> GetMoviesSearch() => this._Search;
+        public ObservableCollection<Movie> GetMoviesSearch() => this.Search;
 
         #endregion
     }

@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         SaveWindowPosition="True"
         Topmost="True"
-        Title="Movies Library" Height="450" Width="800">
+        Title="Movies Library" Height="700" Width="900" MinHeight="700" MinWidth="900">
     
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -36,8 +36,8 @@
         </Grid.RowDefinitions>
 
         <!--#region Menu -->
-        <Menu Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MahApps.Brushes.Accent}">
-            <MenuItem Header="Fichier">
+        <Menu Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Background="{DynamicResource MahApps.Brushes.Accent}">
+            <MenuItem Header="Fichier" Background="{DynamicResource MahApps.Brushes.TransparentWhite}">
                 <MenuItem Header="Quitter" Command="{Binding ExitCommand}"/>
             </MenuItem>
         </Menu>
@@ -54,9 +54,6 @@
         </TabControl>
 
         <!--#endregion-->
-
-
-
 
     </Grid>
 </Controls:MetroWindow>
