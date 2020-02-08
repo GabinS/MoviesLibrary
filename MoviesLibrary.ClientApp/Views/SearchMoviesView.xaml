@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:MoviesLibrary.ClientApp.ViewModels"
              xmlns:local="clr-namespace:MoviesLibrary.ClientApp.Views"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewmodels:ViewModelMovies, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">

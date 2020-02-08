@@ -23,7 +23,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         private IViewModelMyMovies _ViewModelMyMovies;
 
         /// <summary>
-        /// Commande pour fermer lancer une recherche.
+        /// Commande pour lancer une recherche.
         /// </summary>
         private readonly RelayCommand _SearchCommand;
         
@@ -191,8 +191,11 @@ namespace MoviesLibrary.ClientApp.ViewModels
             {
                 int year = (this.Year.Length == 4) ? Convert.ToInt32(this.Year): 0;
                 SearchResult searchResult = OmdbAPI.SearchFilm(this.Search, this.Pagination.IndexPage, year);
-                this.ItemsSource = searchResult.Search;
-                this.TotalResults = searchResult.totalResults;
+                if (searchResult != null)
+                {
+                    this.ItemsSource = searchResult.Search;
+                    this.TotalResults = searchResult.totalResults;
+                }
             }
         }
 

@@ -29,6 +29,10 @@ namespace MoviesLibrary.ClientApp.Models
         /// </summary>
         private string _Actors;
 
+        private bool _IsFavorite;
+
+        private bool _IsView;
+
         #endregion
 
         #region properties
@@ -53,12 +57,17 @@ namespace MoviesLibrary.ClientApp.Models
         /// Obtient ou défini les acteurs du film
         /// </summary>
         public string Actors { get => this._Actors; set => this.SetProperty(nameof(this.Actors), ref this._Actors, value); }
+        public bool IsFavorite { get => this._IsFavorite; set => this.SetProperty(nameof(this.IsFavorite), ref this._IsFavorite, value); }
+        public bool IsView { get => this._IsView; set => this.SetProperty(nameof(this.IsView), ref this._IsView, value); }
 
         #endregion
 
         #region Constructor
 
-        public MovieDetails() { }
+        public MovieDetails() {
+            this._IsFavorite = false;
+            this._IsView = false;
+        }
 
         #endregion
     }

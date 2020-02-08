@@ -7,6 +7,7 @@ using MoviesLibrary.ClientApp.ViewModels.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace MoviesLibrary.ClientApp.ViewModels
@@ -45,6 +46,11 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Déclenche l'événement <see cref="PropertyChanged"/>.
         /// </summary>
         /// <param name="propertyName">Nom de la propriété qui a changée.</param>
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            base.OnPropertyChanged(propertyName);
+            this.DataContext.Save();
+        }
 
         #region AddCommand
 
@@ -54,17 +60,8 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// <param name="parameter">Paramètre de la commande.</param>
         protected override void Add(object parameter)
         {
-            MovieDetails movie = OmdbAPI.GetFilm((parameter as Movie).imdbID);
-            bool exist = false;
-            foreach (var m in this.DataContext.GetItems<MovieDetails>())
-            {
-                if (m.imdbID == movie.imdbID)
-                {
-                    exist = true;
-                    break;
-                }
-            }
-            if (!exist)
+            MovieDetails movie = OmdbAPI.GetFilm((parameter as Movie).imdbID);            
+            if (this.DataContext.GetItems<MovieDetails>().FirstOrDefault(m => m.imdbID == movie.imdbID) == null)
             {
                 this.DataContext.GetItems<MovieDetails>().Insert(0, movie as MovieDetails);
                 this.DataContext.Save();

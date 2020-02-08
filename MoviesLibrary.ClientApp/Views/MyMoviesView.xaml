@@ -5,9 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:MoviesLibrary.ClientApp.ViewModels"
              xmlns:local="clr-namespace:MoviesLibrary.ClientApp.Views"
+             xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewmodels:ViewModelMyMovies, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="MovieViewSource" Source="{Binding ItemsSource}" 
+                              IsLiveSortingRequested="True">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Title" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
 
         <Grid>
@@ -20,9 +31,17 @@
 
             <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
                 <Grid Margin="0,10">
-                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding ItemsSource.Count, StringFormat='Vous avez ajouté {0} films'}" Margin="10,0" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
+
+                    <TextBox Grid.Column="1" Text=""/>
+
                 </Grid>
             </Grid>
 
@@ -32,10 +51,11 @@
 
             <Grid Grid.Row="1">
                 <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                    <ItemsControl ItemsSource="{Binding Path=ItemsSource, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center">
+                    <ItemsControl ItemsSource="{Binding  Source={StaticResource MovieViewSource}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                  IsTextSearchEnabled="True" TextSearch.TextPath="Title" TextSearch.Text="Fast">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="20" Background="{DynamicResource MahApps.Brushes.Accent3}" Height="400" Width="550">
+                                <Border Margin="20" Background="{DynamicResource MahApps.Brushes.Accent3}" Height="400" Width="580">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto"/>
@@ -46,45 +66,138 @@
                                             <Image Source="{Binding Poster}" MaxWidth="275"/>
                                         </Grid>
 
-                                        <Grid Grid.Column="1" Margin="20">
+                                        <Grid Grid.Column="1" Margin="20,10,20,20">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto" MinHeight="60"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <TextBlock Grid.Row="0" Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="20"/>
+                                            <!--#region Favorie -->
 
-                                            <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <TextBlock Text="Date de sortie : " FontSize="16" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Released}" FontSize="14" VerticalAlignment="Center"/>
-                                                </StackPanel>
+                                            <Grid Grid.Row="0">
+                                                <ToggleButton IsChecked="{Binding IsFavorite}" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                              Command="{Binding Path=DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}">
+                                                    <ToggleButton.Content>
+                                                        <Grid>
+                                                            <iconPacks:PackIconMaterial Kind="HeartOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" Height="25">
+                                                                <iconPacks:PackIconMaterial.Style>
+                                                                    <Style TargetType="iconPacks:PackIconMaterial">
+                                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsFavorite}" Value="false">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </iconPacks:PackIconMaterial.Style>
+                                                            </iconPacks:PackIconMaterial>
+                                                            <iconPacks:PackIconMaterial Kind="Heart" VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" Height="25">
+                                                                <iconPacks:PackIconMaterial.Style>
+                                                                    <Style TargetType="iconPacks:PackIconMaterial">
+                                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsFavorite}" Value="true">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </iconPacks:PackIconMaterial.Style>
+                                                            </iconPacks:PackIconMaterial>
+                                                        </Grid>
+                                                    </ToggleButton.Content>
+                                                </ToggleButton>
+                                            </Grid>
 
-                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <TextBlock Text="Durée : " FontSize="16" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Runtime}" FontSize="14" VerticalAlignment="Center"/>
-                                                </StackPanel>
+                                            <!--#endregion-->
 
-                                                <StackPanel Margin="0,0,0,10">
-                                                    <TextBlock Text="Genres : " FontSize="16" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Genre}" TextWrapping="Wrap" FontSize="14"/>
-                                                </StackPanel>
+                                            <!--#region Informations -->
 
-                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <TextBlock Text="Réalisateur : " FontSize="16" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Director}" FontSize="14" VerticalAlignment="Center"/>
-                                                </StackPanel>
+                                            <TextBlock Grid.Row="1" Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="18"/>
 
-                                                <StackPanel Margin="0,0,0,10">
-                                                    <TextBlock Text="Acteurs principaux : " FontSize="16" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Actors}" TextWrapping="Wrap" FontSize="14"/>
+                                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                        <TextBlock Text="Date de sortie : " FontSize="14" FontStyle="Italic"/>
+                                                        <TextBlock Text="{Binding Released}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                        <TextBlock Text="Durée : " FontSize="14" FontStyle="Italic"/>
+                                                        <TextBlock Text="{Binding Runtime}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Margin="0,0,0,10">
+                                                        <TextBlock Text="Genres : " FontSize="14" FontStyle="Italic"/>
+                                                        <TextBlock Text="{Binding Genre}" TextWrapping="Wrap"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                        <TextBlock Text="Réalisateur : " FontSize="14" FontStyle="Italic"/>
+                                                        <TextBlock Text="{Binding Director}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Margin="0,0,0,10">
+                                                        <TextBlock Text="Acteurs principaux : " FontSize="14" FontStyle="Italic"/>
+                                                        <TextBlock Text="{Binding Actors}" TextWrapping="Wrap"/>
+                                                    </StackPanel>
                                                 </StackPanel>
-                                            </StackPanel>
+                                            </ScrollViewer>
                                             
-                                            <Button Grid.Row="2" Content="Retirer de ma liste" HorizontalAlignment="Stretch" Padding="10" Margin="0,10,0,0"
-                                                Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
-                                                CommandParameter="{Binding}"/>
+                                            
+                                            <!--#endregion-->
+
+                                            <!--#region Actions -->
+
+                                            <!--#region Vue -->
+
+                                            <Grid Grid.Row="3">
+                                                <ToggleButton IsChecked="{Binding IsView}" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                              Command="{Binding Path=DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}">
+                                                    <ToggleButton.Content>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Grid>
+                                                                <iconPacks:PackIconMaterial Kind="CheckboxBlankOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20">
+                                                                    <iconPacks:PackIconMaterial.Style>
+                                                                        <Style TargetType="iconPacks:PackIconMaterial">
+                                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsView}" Value="false">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </iconPacks:PackIconMaterial.Style>
+                                                                </iconPacks:PackIconMaterial>
+                                                                <iconPacks:PackIconMaterial Kind="CheckboxMarkedOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20">
+                                                                    <iconPacks:PackIconMaterial.Style>
+                                                                        <Style TargetType="iconPacks:PackIconMaterial">
+                                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsView}" Value="true">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </iconPacks:PackIconMaterial.Style>
+                                                                </iconPacks:PackIconMaterial>
+                                                            </Grid>
+                                                            <TextBlock Text="Vue" FontSize="16" Margin="5,0"/>
+                                                        </StackPanel>
+                                                    </ToggleButton.Content>
+                                                </ToggleButton>
+                                            </Grid>
+
+                                            <!--#endregion-->
+
+                                            <Button Grid.Row="4" Content="Retirer de ma liste" HorizontalAlignment="Stretch" Padding="10" Margin="0,10,0,0"
+                                            Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"/>
+                                            
+                                            <!--#endregion-->
+                                            
                                         </Grid>
 
                                     </Grid>
