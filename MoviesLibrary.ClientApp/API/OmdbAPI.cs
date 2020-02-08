@@ -41,17 +41,17 @@ namespace MoviesLibrary.ClientApp.API
         }
 
         /// <summary>
-        /// Récupère un film par son identifiant
+        /// Récupère un film détaillé par son identifiant
         /// </summary>
         /// <param name="imdbID">Identifiant d'un film</param>
-        /// <returns><see cref="Movie"/></returns>
-        public static Movie GetFilm(string imdbID)
+        /// <returns><see cref="MovieDetails"/></returns>
+        public static MovieDetails GetFilm(string imdbID)
         {
             string url = $"{baseUrl}&i={imdbID}";
             using (var client = new WebClient())
             {
                 string responce = client.DownloadString(url);
-                Movie result = Newtonsoft.Json.JsonConvert.DeserializeObject<Movie>(responce);
+                MovieDetails result = Newtonsoft.Json.JsonConvert.DeserializeObject<MovieDetails>(responce);
 
                 if (result != null)
                 {

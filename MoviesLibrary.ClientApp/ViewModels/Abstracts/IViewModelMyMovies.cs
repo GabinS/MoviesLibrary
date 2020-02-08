@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MoviesLibrary.ClientApp.ViewModels.Abstracts
 {
-    public interface IViewModelMyMovies : IViewModelList<Movie, IDataContext>
+    public interface IViewModelMyMovies : IViewModelList<MovieDetails, IDataContext>
     {
 
     }

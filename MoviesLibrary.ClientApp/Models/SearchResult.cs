@@ -40,10 +40,5 @@ namespace MoviesLibrary.ClientApp.Models
 
         #endregion
 
-        #region Methods
-
-        public ObservableCollection<Movie> GetMoviesSearch() => this.Search;
-
-        #endregion
     }
 }

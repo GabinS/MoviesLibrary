@@ -13,11 +13,6 @@ namespace MoviesLibrary.ClientApp.ViewModels
     {
         #region Fields
 
-        /// <summary>
-        /// Fournisseur de service de l'application.
-        /// </summary>
-        private readonly IServiceProvider _ServiceProvider;
-
         #endregion
 
         #region Properties
@@ -34,8 +29,10 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public ViewModelSettings(IServiceProvider serviceProvider)
             : base(serviceProvider.GetService<IDataContext>())
         {
-            this._ServiceProvider = serviceProvider;
+
         }
+
+        public override void LoadData() {}
 
         #endregion
     }

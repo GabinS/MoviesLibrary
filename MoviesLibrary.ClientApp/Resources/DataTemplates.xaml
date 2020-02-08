@@ -1,17 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModels="clr-namespace:MoviesLibrary.ClientApp.ViewModels"
-                    xmlns:local1="clr-namespace:MoviesLibrary.ClientApp.Views">
+                    xmlns:local="clr-namespace:MoviesLibrary.ClientApp.Views">
 
 
     <DataTemplate DataType="{x:Type viewModels:ViewModelMovies}">
-        <local1:SearchMoviesView/>
+        <local:SearchMoviesView/>
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type viewModels:ViewModelMyMovies}">
-        <StackPanel>
-            <TextBlock Text="{Binding Title}"/>
-        </StackPanel>
+        <local:MyMoviesView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:ViewModelSettings}">

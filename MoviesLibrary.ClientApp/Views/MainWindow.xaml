@@ -11,7 +11,6 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         SaveWindowPosition="True"
-        Topmost="True"
         Title="Movies Library" Height="700" Width="900" MinHeight="700" MinWidth="900">
     
     <Controls:MetroWindow.RightWindowCommands>

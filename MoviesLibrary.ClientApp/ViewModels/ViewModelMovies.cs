@@ -5,23 +5,22 @@ using MoviesLibrary.ClientApp.Models;
 using MoviesLibrary.ClientApp.ViewModels.Abstracts;
 using MoviesLibrary.ClientApp.API;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Framework.MVVM;
+using System.Collections.Generic;
 
 namespace MoviesLibrary.ClientApp.ViewModels
 {
     /// <summary>
     /// Vue-modèle pour l'affichage des films provenant de l'api OMDb.
     /// </summary>
-    public class ViewModelMovies : ViewModelList<SearchResult, IDataContext>, IViewModelMovies
+    public class ViewModelMovies : ViewModelList<Movie, IDataContext>, IViewModelMovies
     {
         #region Fields
 
         /// <summary>
-        /// Fournisseur de service de l'application.
+        /// Vue-modèle de la liste de film personnelle.
         /// </summary>
-        private readonly IServiceProvider _ServiceProvider;
+        private IViewModelMyMovies _ViewModelMyMovies;
 
         /// <summary>
         /// Commande pour fermer lancer une recherche.
@@ -42,7 +41,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Structure de pagination
         /// </summary>
         private Pagination _Pagination;
-        
+
         /// <summary>
         /// Recherche
         /// </summary>
@@ -53,6 +52,11 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// </summary>
         private string _Year;
 
+        /// <summary>
+        /// Nombre de résultat d'une recherche
+        /// </summary>
+        private int _TotalResults;
+
         #endregion
 
         #region Properties
@@ -61,6 +65,12 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Obtient le titre du vue-modèle
         /// </summary>
         public string Title => "Les Films";
+        public IViewModelMyMovies ViewModelMyMovies { get => this._ViewModelMyMovies; private set => this.SetProperty(nameof(this.ViewModelMyMovies), ref this._ViewModelMyMovies, value); }
+
+        /// <summary>
+        /// Obtient la commande pour ajouter un élément.
+        /// </summary>
+        public override RelayCommand AddCommand => this.ViewModelMyMovies.AddCommand;
 
         public RelayCommand SearchCommand => this._SearchCommand;
         public RelayCommand PreviousPageCommand => this._PreviousPageCommand;
@@ -68,6 +78,8 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public Pagination Pagination { get => this._Pagination; private set => this._Pagination = value; }
         public string Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
         public string Year { get => this._Year; set => this.SetProperty(nameof(this.Year), ref this._Year, value); }
+        public int TotalResults { get => this._TotalResults; set => this.SetProperty(nameof(this.TotalResults), ref this._TotalResults, value); }
+
 
         #endregion
 
@@ -80,20 +92,26 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public ViewModelMovies(IServiceProvider serviceProvider)
             : base(serviceProvider.GetService<IDataContext>())
         {
+            this._ViewModelMyMovies = serviceProvider.GetService<IViewModelMyMovies>();
             this._SearchCommand = new RelayCommand(this.SearchMovie, this.CanSearch);
             this._PreviousPageCommand = new RelayCommand(this.PreviousPage, this.CanPreviousPage);
             this._NextPageCommand = new RelayCommand(this.NextPage, this.CanNextPage);
             this._Pagination = new Pagination();
-            this._Search = "";
+            this._Search = "Harry Potter";
             this._Year = "";
+            this._TotalResults = 0;
 
-            this._ServiceProvider = serviceProvider;
             this.LoadData();
         }
 
         #endregion
 
         #region Methods
+
+        public override void LoadData()
+        {
+            this.SearchMovie();
+        }
 
         #region SearchCommand
 
@@ -111,10 +129,10 @@ namespace MoviesLibrary.ClientApp.ViewModels
         protected virtual void SearchMovie(object search)
         {
             SearchMovie();
-            if (ItemsSource[0] != null)
+            if (ItemsSource != null)
             {
-                int maxPage = (ItemsSource[0].totalResults - ItemsSource[0].totalResults % 10) / 10;
-                if (ItemsSource[0].totalResults % 10 != 0) maxPage++;
+                int maxPage = (this.TotalResults - this.TotalResults % 10) / 10;
+                if (this.TotalResults % 10 != 0) maxPage++;
                 this.Pagination.Refresh(1, maxPage);
             }
         }
@@ -142,7 +160,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
 
         #endregion
 
-        #region PreviousPageCommand
+        #region NextPageCommand
 
         /// <summary>
         /// Methode qui détermine si la commande <see cref="NextPageCommand"/> peut être exécutée.
@@ -162,7 +180,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         }
 
         #endregion
-
+        
         /// <summary>
         /// Appel la recherche de OmdbAPI
         /// </summary>
@@ -172,7 +190,9 @@ namespace MoviesLibrary.ClientApp.ViewModels
             if (this.Search != "")
             {
                 int year = (this.Year.Length == 4) ? Convert.ToInt32(this.Year): 0;
-                this.ItemsSource[0] = OmdbAPI.SearchFilm(this.Search, this.Pagination.IndexPage, year);
+                SearchResult searchResult = OmdbAPI.SearchFilm(this.Search, this.Pagination.IndexPage, year);
+                this.ItemsSource = searchResult.Search;
+                this.TotalResults = searchResult.totalResults;
             }
         }
 

@@ -88,6 +88,24 @@ namespace MoviesLibrary.ClientApp.ViewModels
             this.SelectedItem = this._ViewModelMovies; // vue-model sélectionné par défaut.
         }
 
+        /// <summary>
+        /// Déclenche l'événement <see cref="PropertyChanged"/>.
+        /// </summary>
+        /// <param name="propertyName">Nom de la propriété qui a changée.</param>
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(this.SelectedItem):
+                    (this.SelectedItem as IViewModelList<IDataContext>)?.LoadData();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #region ExitCommand
 
         /// <summary>

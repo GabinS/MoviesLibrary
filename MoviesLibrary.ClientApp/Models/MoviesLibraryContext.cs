@@ -1,4 +1,5 @@
-﻿using Framework.MVVM.Models;
+﻿using Framework.MVVM.Abstracts;
+using Framework.MVVM.Models;
 using MoviesLibrary.ClientApp.API;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace MoviesLibrary.ClientApp.Models
         /// <summary>
         /// Liste des films d'une recherche
         /// </summary>
-        private ObservableCollection<SearchResult> _SearchMovies;
+        private ObservableCollection<Movie> _SearchMovies;
         /// <summary>
         /// Liste des films de ma collection
         /// </summary>
-        private ObservableCollection<Movie> _MyMovies;
+        private ObservableCollection<MovieDetails> _MyMovies;
 
         #endregion
 
@@ -31,11 +32,11 @@ namespace MoviesLibrary.ClientApp.Models
         /// <summary>
         /// Obtient la liste des films d'une recherche
         /// </summary>
-        public ObservableCollection<SearchResult> SearchMovies { get => this._SearchMovies; private set => this.SetProperty(nameof(this.SearchMovies), ref this._SearchMovies, value); }
+        public ObservableCollection<Movie> SearchMovies { get => this._SearchMovies; private set => this.SetProperty(nameof(this.SearchMovies), ref this._SearchMovies, value); }
         /// <summary>
         /// Obtient la liste des films de ma collection
         /// </summary>
-        public ObservableCollection<Movie> MyMovies { get => this._MyMovies; private set => this.SetProperty(nameof(this.MyMovies), ref this._MyMovies, value); }
+        public ObservableCollection<MovieDetails> MyMovies { get => this._MyMovies; private set => this.SetProperty(nameof(this.MyMovies), ref this._MyMovies, value); }
 
         #endregion
 
@@ -48,9 +49,8 @@ namespace MoviesLibrary.ClientApp.Models
         public MoviesLibraryContext(string filePath)
             : base(filePath)
         {
-            this._SearchMovies = new ObservableCollection<SearchResult>(){ OmdbAPI.SearchFilm("Harry Potter")};
-            //this._SearchMovies = new ObservableCollection<Movie>();
-            this._MyMovies = new ObservableCollection<Movie>();
+            this._SearchMovies = new ObservableCollection<Movie>();
+            this._MyMovies = new ObservableCollection<MovieDetails>();
         }
 
         #endregion
@@ -59,18 +59,35 @@ namespace MoviesLibrary.ClientApp.Models
 
         public override T CreateItem<T>()
         {
-            throw new NotImplementedException();
+            IObservableObject createdItem;
+
+            if (typeof(T) == typeof(Movie))
+            {
+                createdItem = new Movie();
+                this.SearchMovies.Add(createdItem as Movie);
+            }
+            else if (typeof(T) == typeof(MovieDetails))
+            {
+                createdItem = new MovieDetails();
+                this.MyMovies.Add(createdItem as MovieDetails);
+            }
+            else
+            {
+                throw new Exception("Le type spécifié n'est pas valide");
+            }
+
+            return (T)createdItem;
         }
 
         public override ObservableCollection<T> GetItems<T>()
         {
-            ObservableCollection<T> result;
+            ObservableCollection<T> result = new ObservableCollection<T>();
 
-            if (typeof(T) == typeof(SearchResult))
+            if (typeof(T) == typeof(Movie))
             {
                 result = this.SearchMovies as ObservableCollection<T>;
             }
-            else if (typeof(T) == typeof(Movie))
+            else if (typeof(T) == typeof(MovieDetails))
             {
                 result = this.MyMovies as ObservableCollection<T>;
             }
