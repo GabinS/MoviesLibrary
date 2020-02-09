@@ -13,7 +13,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
     /// <summary>
     /// Vue-modèle pour l'affichage des films provenant de l'api OMDb.
     /// </summary>
-    public class ViewModelMovies : ViewModelList<Movie, IDataContext>, IViewModelMovies
+    public class ViewModelSearchMovies : ViewModelList<Movie, IDataContext>, IViewModelMovies
     {
         #region Fields
 
@@ -64,7 +64,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// <summary>
         /// Obtient le titre du vue-modèle
         /// </summary>
-        public string Title => "Les Films";
+        public string Title => "Rechecher Un Film";
         public IViewModelMyMovies ViewModelMyMovies { get => this._ViewModelMyMovies; private set => this.SetProperty(nameof(this.ViewModelMyMovies), ref this._ViewModelMyMovies, value); }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Initialise une nouvelle instance de la classe <see cref="ViewModelMovies"/>
         /// </summary>
         /// <param name="serviceProvider">Fournisseur de service de l'application.</param>
-        public ViewModelMovies(IServiceProvider serviceProvider)
+        public ViewModelSearchMovies(IServiceProvider serviceProvider)
             : base(serviceProvider.GetService<IDataContext>())
         {
             this._ViewModelMyMovies = serviceProvider.GetService<IViewModelMyMovies>();
@@ -97,9 +97,9 @@ namespace MoviesLibrary.ClientApp.ViewModels
             this._PreviousPageCommand = new RelayCommand(this.PreviousPage, this.CanPreviousPage);
             this._NextPageCommand = new RelayCommand(this.NextPage, this.CanNextPage);
             this._Pagination = new Pagination();
-            this._Search = "Harry Potter";
+            this._Search = "";
             this._Year = "";
-            this._TotalResults = 0;
+            this._TotalResults = -1;
 
             this.LoadData();
         }
@@ -126,7 +126,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Méthode d'exécution de la commande <see cref="SearchCommand"/>.
         /// </summary>
         /// <param name="parameter">Paramètre de la commande.</param>
-        protected virtual void SearchMovie(object search)
+        protected virtual void SearchMovie(object parameter)
         {
             SearchMovie();
             if (ItemsSource != null)
@@ -189,7 +189,9 @@ namespace MoviesLibrary.ClientApp.ViewModels
         {
             if (this.Search != "")
             {
-                int year = (this.Year.Length == 4) ? Convert.ToInt32(this.Year): 0;
+                if (this.ItemsSource != null) this.ItemsSource.Clear();
+                this.TotalResults = 0;
+                int year = (this.Year.Length == 4) ? Convert.ToInt32(this.Year) : 0;
                 SearchResult searchResult = OmdbAPI.SearchFilm(this.Search, this.Pagination.IndexPage, year);
                 if (searchResult != null)
                 {

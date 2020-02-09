@@ -35,9 +35,8 @@ namespace MoviesLibrary.ClientApp
 
             //Création des vue-modèle.
             serviceCollection.AddTransient<IViewModelMain, ViewModelMain>(sp => new ViewModelMain(sp));
-            serviceCollection.AddTransient<IViewModelMovies, ViewModelMovies>(sp => new ViewModelMovies(sp));
+            serviceCollection.AddTransient<IViewModelMovies, ViewModelSearchMovies>(sp => new ViewModelSearchMovies(sp));
             serviceCollection.AddTransient<IViewModelMyMovies, ViewModelMyMovies>(sp => new ViewModelMyMovies(sp.GetService<IDataContext>()));
-            serviceCollection.AddTransient<IViewModelSettings, ViewModelSettings>(sp => new ViewModelSettings(sp));
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 

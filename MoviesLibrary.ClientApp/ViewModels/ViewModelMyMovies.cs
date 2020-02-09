@@ -1,4 +1,5 @@
-﻿using Framework.MVVM.Models.Abstracts;
+﻿using Framework.MVVM;
+using Framework.MVVM.Models.Abstracts;
 using Framework.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using MoviesLibrary.ClientApp.API;
@@ -17,6 +18,20 @@ namespace MoviesLibrary.ClientApp.ViewModels
     /// </summary>
     public class ViewModelMyMovies : ViewModelList<MovieDetails, IDataContext>, IViewModelMyMovies
     {
+        #region Fields
+
+        /// <summary>
+        /// Recherche
+        /// </summary>
+        private string _Search;
+
+        /// <summary>
+        /// Commande pour lancer une recherche.
+        /// </summary>
+        private readonly RelayCommand _SearchCommand;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -24,8 +39,11 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// </summary>
         public string Title => "Ma Collection";
 
+        public string Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
+        public RelayCommand SearchCommand => this._SearchCommand;
+
         #endregion
-        
+
         #region Constructor
 
         /// <summary>
@@ -35,6 +53,8 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public ViewModelMyMovies(IDataContext dataContext)
             : base(dataContext)
         {
+            this._SearchCommand = new RelayCommand(this.SearchMovie, this.CanSearch);
+            this._Search = "";
             this.LoadData();
         }
 
@@ -42,15 +62,34 @@ namespace MoviesLibrary.ClientApp.ViewModels
 
         #region Methods
 
+        #region SearchCommand
+
         /// <summary>
-        /// Déclenche l'événement <see cref="PropertyChanged"/>.
+        /// Methode qui détermine si la commande <see cref="SearchCommand"/> peut être exécutée.
         /// </summary>
-        /// <param name="propertyName">Nom de la propriété qui a changée.</param>
-        protected override void OnPropertyChanged(string propertyName)
+        /// <param name="parameter">Paramètre de la commande.</param>
+        /// <returns>Détermine si la commande peut être exécutée.</returns>
+        protected virtual bool CanSearch(object parameter) => true;
+
+        /// <summary>
+        /// Méthode d'exécution de la commande <see cref="SearchCommand"/>.
+        /// </summary>
+        /// <param name="parameter">Paramètre de la commande.</param>
+        protected virtual void SearchMovie(object parameter)
         {
-            base.OnPropertyChanged(propertyName);
-            this.DataContext.Save();
+            this.ItemsSource = this.DataContext.GetItems<MovieDetails>();
+            if (parameter != null && parameter.ToString() != "" && this.ItemsSource != null)
+            {
+                ObservableCollection<MovieDetails> moviesSearch = new ObservableCollection<MovieDetails>();
+                this.DataContext.GetItems<MovieDetails>().ToList().ForEach(m =>
+                {
+                    if (m.Title.ToLower().Contains(parameter.ToString().ToLower())) moviesSearch.Add(m);
+                });
+                this.ItemsSource = moviesSearch;
+            }
         }
+
+        #endregion
 
         #region AddCommand
 

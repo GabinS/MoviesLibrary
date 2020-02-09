@@ -4,18 +4,12 @@
                     xmlns:local="clr-namespace:MoviesLibrary.ClientApp.Views">
 
 
-    <DataTemplate DataType="{x:Type viewModels:ViewModelMovies}">
+    <DataTemplate DataType="{x:Type viewModels:ViewModelSearchMovies}">
         <local:SearchMoviesView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:ViewModelMyMovies}">
         <local:MyMoviesView/>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModels:ViewModelSettings}">
-        <StackPanel>
-            <TextBlock Text="{Binding Title}"/>
-        </StackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

@@ -33,11 +33,6 @@ namespace MoviesLibrary.ClientApp.ViewModels
         private IViewModelMyMovies _ViewModelMyMovies;
 
         /// <summary>
-        /// Vue-modèle de la page des paramètres.
-        /// </summary>
-        private IViewModelSettings _ViewModelSettings;
-
-        /// <summary>
         /// Commande pour fermer l'application.
         /// </summary>
         private readonly RelayCommand _ExitCommand;
@@ -49,8 +44,6 @@ namespace MoviesLibrary.ClientApp.ViewModels
         public IViewModelMovies ViewModelMovies { get => this._ViewModelMovies; private set => this.SetProperty(nameof(this.ViewModelMovies), ref this._ViewModelMovies, value); }
 
         public IViewModelMyMovies ViewModelMyMovies { get => this._ViewModelMyMovies; private set => this.SetProperty(nameof(this.ViewModelMyMovies), ref this._ViewModelMyMovies, value); }
-
-        public IViewModelSettings ViewModelSettings { get => this._ViewModelSettings; private set => this.SetProperty(nameof(this.ViewModelSettings), ref this._ViewModelSettings, value); }
 
         /// <summary>
         /// Obtient la commande pour fermer l'application.
@@ -72,7 +65,6 @@ namespace MoviesLibrary.ClientApp.ViewModels
 
             this._ViewModelMovies = this._ServiceProvider.GetService<IViewModelMovies>();
             this._ViewModelMyMovies = this._ServiceProvider.GetService<IViewModelMyMovies>();
-            this._ViewModelSettings = this._ServiceProvider.GetService<IViewModelSettings>();
 
             this._ExitCommand = new RelayCommand(this.Exit, this.CanExit);
             this.LoadData();
@@ -84,7 +76,7 @@ namespace MoviesLibrary.ClientApp.ViewModels
 
         public override void LoadData()
         {
-            this.ItemsSource = new ObservableCollection<IObservableObject>(new IObservableObject[] {  this._ViewModelMovies, this._ViewModelMyMovies, this._ViewModelSettings });
+            this.ItemsSource = new ObservableCollection<IObservableObject>(new IObservableObject[] {  this._ViewModelMovies, this._ViewModelMyMovies });
             this.SelectedItem = this._ViewModelMovies; // vue-model sélectionné par défaut.
         }
 

@@ -54,7 +54,7 @@ namespace MoviesLibrary.ClientApp.Models
             this._IndexPage = 1;
             this._PreviousPage = 1;
             this._NextPage = 1;
-            this._MaxPage = 1;
+            this._MaxPage = 0;
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace MoviesLibrary.ClientApp.Models
         /// </summary>
         /// <param name="indexPage">Numéro de page sélectionnée</param>
         /// <param name="maxPage">Nombre de page max</param>
-        public void Refresh(int indexPage, int maxPage = 0)
+        public void Refresh(int indexPage, int maxPage)
         {
             this.IndexPage = indexPage;
-            this.MaxPage = maxPage != 0 ? maxPage : this.MaxPage;
+            this.MaxPage = maxPage;
             this.PreviousPage = (this.IndexPage > 1) ? this.IndexPage - 1 : 1;
             this.NextPage = (this.IndexPage < this.MaxPage) ? this.IndexPage + 1 : this.MaxPage;
         }
@@ -75,14 +75,14 @@ namespace MoviesLibrary.ClientApp.Models
         /// </summary>
         public void GoToPreviousPage()
         {
-            Refresh(this.PreviousPage);
+            Refresh(this.PreviousPage, this.MaxPage);
         }
         /// <summary>
         /// Change la page sélectionée vers la page suivante
         /// </summary>
         public void GoToNextPage()
         {
-            Refresh(this.NextPage);
+            Refresh(this.NextPage, this.MaxPage);
         }
 
         #endregion

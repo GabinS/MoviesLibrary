@@ -33,14 +33,19 @@
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="{Binding ItemsSource.Count, StringFormat='Vous avez ajouté {0} films'}" Margin="10,0" FontSize="20" VerticalAlignment="Center"/>
-                    </StackPanel>
 
-                    <TextBox Grid.Column="1" Text=""/>
+                    <TextBlock Grid.Column="1" Text="{Binding ItemsSource.Count, StringFormat='Vous avez ajouté {0} films'}" Margin="10,0" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBox Grid.Column="3" Text="{Binding Search}" Padding="10" MinWidth="300" FontSize="16"/>
+
+                    <Button Grid.Column="5" Content="Rechercher un film" Padding="50,10" Command="{Binding SearchCommand}"  CommandParameter="{Binding Search}"/>
 
                 </Grid>
             </Grid>
@@ -50,9 +55,28 @@
             <!--#region Liste Films -->
 
             <Grid Grid.Row="1">
+
+                <!--#region Liste vide -->
+
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Aucun Films" FontSize="40" FontStyle="Italic">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ItemsSource.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!--#endregion-->
+
                 <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                    <ItemsControl ItemsSource="{Binding  Source={StaticResource MovieViewSource}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
-                                  IsTextSearchEnabled="True" TextSearch.TextPath="Title" TextSearch.Text="Fast">
+                    <ItemsControl ItemsSource="{Binding Source={StaticResource MovieViewSource}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                  IsTextSearchEnabled="True" TextSearch.TextPath="{Binding Title}" TextSearch.Text="{Binding ElementName=SearchBox, Path=Text}">
+                        
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="20" Background="{DynamicResource MahApps.Brushes.Accent3}" Height="400" Width="580">
