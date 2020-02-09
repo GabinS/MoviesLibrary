@@ -58,7 +58,7 @@
 
                 <!--#region Liste vide -->
 
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Aucun Films" FontSize="40" FontStyle="Italic">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Aucun Film Enregistré" FontSize="40" FontStyle="Italic">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Hidden"/>
@@ -99,7 +99,7 @@
                                                 <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <!--#region Favorie -->
+                                            <!--#region Favoris -->
 
                                             <Grid Grid.Row="0">
                                                 <ToggleButton IsChecked="{Binding IsFavorite}" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center"

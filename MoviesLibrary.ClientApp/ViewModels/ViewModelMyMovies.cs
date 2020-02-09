@@ -21,14 +21,14 @@ namespace MoviesLibrary.ClientApp.ViewModels
         #region Fields
 
         /// <summary>
-        /// Recherche
-        /// </summary>
-        private string _Search;
-
-        /// <summary>
         /// Commande pour lancer une recherche.
         /// </summary>
         private readonly RelayCommand _SearchCommand;
+
+        /// <summary>
+        /// Recherche
+        /// </summary>
+        private string _Search;
 
         #endregion
 
@@ -39,8 +39,15 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// </summary>
         public string Title => "Ma Collection";
 
-        public string Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
+        /// <summary>
+        /// Obtient la commande SearchCommand
+        /// </summary>
         public RelayCommand SearchCommand => this._SearchCommand;
+
+        /// <summary>
+        /// Obtient ou défini la filtre par titre
+        /// </summary>
+        public string Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
 
         #endregion
 

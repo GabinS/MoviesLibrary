@@ -24,6 +24,11 @@ namespace MoviesLibrary.ClientApp.Views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Accepte seulement les entrées numérique du clavier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");

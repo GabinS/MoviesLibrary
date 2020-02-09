@@ -65,19 +65,44 @@ namespace MoviesLibrary.ClientApp.ViewModels
         /// Obtient le titre du vue-modèle
         /// </summary>
         public string Title => "Rechecher Un Film";
+        /// <summary>
+        /// Obtient ou défini le view modèle <see cref="ViewModelMyMovies"/>.
+        /// </summary>
         public IViewModelMyMovies ViewModelMyMovies { get => this._ViewModelMyMovies; private set => this.SetProperty(nameof(this.ViewModelMyMovies), ref this._ViewModelMyMovies, value); }
 
         /// <summary>
-        /// Obtient la commande pour ajouter un élément.
+        /// Obtient la commande AddCommand de <see cref="ViewModelMyMovies"/>.
         /// </summary>
         public override RelayCommand AddCommand => this.ViewModelMyMovies.AddCommand;
 
+        /// <summary>
+        /// Obtient la commande SearchCommand.
+        /// </summary>
         public RelayCommand SearchCommand => this._SearchCommand;
+        /// <summary>
+        /// Obtient la commande PreviousPageCommand.
+        /// </summary>
         public RelayCommand PreviousPageCommand => this._PreviousPageCommand;
+        /// <summary>
+        /// Obtient la commande NextPageCommand.
+        /// </summary>
         public RelayCommand NextPageCommand => this._NextPageCommand;
+
+        /// <summary>
+        /// Obtient ou défini le modèle de pagination.
+        /// </summary>
         public Pagination Pagination { get => this._Pagination; private set => this._Pagination = value; }
+        /// <summary>
+        /// Obtient ou défini la recherche par titre.
+        /// </summary>
         public string Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
+        /// <summary>
+        /// Obtient ou défini la recherche avec année.
+        /// </summary>
         public string Year { get => this._Year; set => this.SetProperty(nameof(this.Year), ref this._Year, value); }
+        /// <summary>
+        /// Obtient ou défini le total de resultat de la recherche en cours.
+        /// </summary>
         public int TotalResults { get => this._TotalResults; set => this.SetProperty(nameof(this.TotalResults), ref this._TotalResults, value); }
 
 

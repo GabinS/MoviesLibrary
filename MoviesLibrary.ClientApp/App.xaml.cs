@@ -38,13 +38,14 @@ namespace MoviesLibrary.ClientApp
             serviceCollection.AddTransient<IViewModelMovies, ViewModelSearchMovies>(sp => new ViewModelSearchMovies(sp));
             serviceCollection.AddTransient<IViewModelMyMovies, ViewModelMyMovies>(sp => new ViewModelMyMovies(sp.GetService<IDataContext>()));
 
+            //Construction du fournisseur de service à partir de la définition des services disponibles.
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
+            //Création de l'instance de la fenêtre principale.
             MainWindow window = new MainWindow();
-
-            //TODO Affectation du context à la fenêtre principale.
+            //Injection du vue-modèle de la fenêtre.
             window.DataContext = serviceProvider.GetService<IViewModelMain>();
-
+            //Affichage de la fenêtre principale.
             window.Show();
         }
     }

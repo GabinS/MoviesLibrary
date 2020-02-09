@@ -15,7 +15,7 @@ namespace MoviesLibrary.ClientApp.API
         private static string baseUrl = $"http://www.omdbapi.com?apikey={APIKey.GetAPIKey}&type=movie";
 
         /// <summary>
-        /// Recherche une liste de film par leur nom
+        /// Recherche une liste de film par titre
         /// </summary>
         /// <param name="search">Recherche demandée</param>
         /// <param name="page">numéro de la page</param>
@@ -30,14 +30,9 @@ namespace MoviesLibrary.ClientApp.API
                 string responce = client.DownloadString(url);
                 SearchResult result = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResult>(responce);
 
-                if (result.Response)
-                {
-                    return result;
-                }
-                Console.WriteLine("Une erreur est survenue");
+                if (result.Response) return result;
             }
             return null;
-
         }
 
         /// <summary>
@@ -53,14 +48,9 @@ namespace MoviesLibrary.ClientApp.API
                 string responce = client.DownloadString(url);
                 MovieDetails result = Newtonsoft.Json.JsonConvert.DeserializeObject<MovieDetails>(responce);
 
-                if (result != null)
-                {
-                    return result;
-                }
-                Console.WriteLine("Une erreur est survenue");
+                if (result != null) return result;
             }
             return null;
-
         }
     }
 }
