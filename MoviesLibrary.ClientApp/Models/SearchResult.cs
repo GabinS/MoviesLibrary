@@ -12,7 +12,7 @@ namespace MoviesLibrary.ClientApp.Models
         #region Fields
 
         /// <summary>
-        /// liste des films recherchés
+        /// Liste des films recherchés
         /// </summary>
         private ObservableCollection<Movie> _Search;
         /// <summary>
@@ -27,9 +27,17 @@ namespace MoviesLibrary.ClientApp.Models
         #endregion
 
         #region properties
-
+        /// <summary>
+        /// Obtient ou défini la liste des films recherchés
+        /// </summary>
         public ObservableCollection<Movie> Search { get => this._Search; set => this.SetProperty(nameof(this.Search), ref this._Search, value); }
+        /// <summary>
+        /// Obtient ou défini le nombre total de résultat
+        /// </summary>
         public int totalResults { get => this._totalResults; set => this.SetProperty(nameof(this.totalResults), ref this._totalResults, value); }
+        /// <summary>
+        /// Obtient ou défini l'état de la recherche
+        /// </summary>
         public bool Response { get => this._Response; set => this.SetProperty(nameof(this.Response), ref this._Response, value); }
 
         #endregion

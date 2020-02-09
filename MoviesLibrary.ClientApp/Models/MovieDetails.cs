@@ -28,9 +28,13 @@ namespace MoviesLibrary.ClientApp.Models
         /// Acteurs du film
         /// </summary>
         private string _Actors;
-
+        /// <summary>
+        /// Attribut qui détermine si le film est en favorie
+        /// </summary>
         private bool _IsFavorite;
-
+        /// <summary>
+        /// Attribut qui détermine si le film à été vue
+        /// </summary>
         private bool _IsView;
 
         #endregion
@@ -57,7 +61,13 @@ namespace MoviesLibrary.ClientApp.Models
         /// Obtient ou défini les acteurs du film
         /// </summary>
         public string Actors { get => this._Actors; set => this.SetProperty(nameof(this.Actors), ref this._Actors, value); }
+        /// <summary>
+        /// Obtient ou défini le film est en favorie
+        /// </summary>
         public bool IsFavorite { get => this._IsFavorite; set => this.SetProperty(nameof(this.IsFavorite), ref this._IsFavorite, value); }
+        /// <summary>
+        /// Obtient ou défini le film à été vue
+        /// </summary>
         public bool IsView { get => this._IsView; set => this.SetProperty(nameof(this.IsView), ref this._IsView, value); }
 
         #endregion

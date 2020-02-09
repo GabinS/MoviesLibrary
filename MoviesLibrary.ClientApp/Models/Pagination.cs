@@ -10,15 +10,15 @@ namespace MoviesLibrary.ClientApp.Models
         #region Fields
 
         /// <summary>
-        /// Page précédente
+        /// Page sélectionnée
         /// </summary>
         private int _IndexPage;
         /// <summary>
-        /// Page suivante
+        /// Page précédente
         /// </summary>
         private int _PreviousPage;
         /// <summary>
-        /// Page sélectionnée
+        /// Page suivante
         /// </summary>
         private int _NextPage;
         /// <summary>
@@ -30,15 +30,15 @@ namespace MoviesLibrary.ClientApp.Models
 
         #region Properties
         /// <summary>
-        /// Obtient ou défini la page précédente
+        /// Obtient ou défini la page sélectionnée
         /// </summary>
         public int IndexPage { get => this._IndexPage; set => this.SetProperty(nameof(this.IndexPage), ref this._IndexPage, value); }
         /// <summary>
-        /// Obtient ou défini la page suivante
+        /// Obtient ou défini la page précédente
         /// </summary>
         public int PreviousPage { get => this._PreviousPage; set => this.SetProperty(nameof(this.PreviousPage), ref this._PreviousPage, value); }
         /// <summary>
-        /// Obtient ou défini la page sélectionnée
+        /// Obtient ou défini la page suivante
         /// </summary>
         public int NextPage { get => this._NextPage; set => this.SetProperty(nameof(this.NextPage), ref this._NextPage, value); }
         /// <summary>
